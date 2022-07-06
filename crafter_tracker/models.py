@@ -6,7 +6,6 @@ class Project(models.Model):
     category = models.CharField(max_length=50)
     complete = models.BooleanField()
     materials = models.CharField(max_length=50)
-    resources = models.CharField(max_length=50)
     start_date = models.DateField()
     end_date = models.DateField()
     notes = models.TextField()
@@ -22,6 +21,20 @@ class Image(models.Model):
         related_name='images',
     )
     images = models.ImageField(upload_to ='images/')
+
+    def __str__(self):
+        return self.name
+
+class Resource(models.Model):
+    project = models.ForeignKey(
+        Project,
+        on_delete=models.CASCADE,
+        related_name='resources',
+    )
+    name = models.CharField(max_length=100)
+    link = models.URLField(max_length=400)
+    media_type = models.CharField(max_length=100)
+    notes = models.TextField()
 
     def __str__(self):
         return self.name
