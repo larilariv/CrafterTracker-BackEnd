@@ -75,7 +75,7 @@ class Material(models.Model):
     )
     name = models.CharField(max_length=255)
     brand = models.CharField(max_length=255)
-    categories = models.CharField(max_length=255)
+    category = models.CharField(max_length=255)
     material_purchase_link = models.URLField(max_length=400)
     notes = models.TextField()
 

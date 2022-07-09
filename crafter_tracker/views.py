@@ -7,7 +7,7 @@ from .models import Project, Image, Resource, Material
 
 # drf related imports
 from rest_framework import generics
-from .serializers import ProjectSerializer, ImageSerializer, ResourceSerializer
+from .serializers import ProjectSerializer, ImageSerializer, ResourceSerializer, MaterialSerializer
 
 class ProjectList(generics.ListCreateAPIView):
     queryset = Project.objects.all()
@@ -32,3 +32,11 @@ class ResourceList(generics.ListCreateAPIView):
 class ResourceDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = Resource.objects.all()
     serializer_class = ResourceSerializer
+
+class MaterialList(generics.ListCreateAPIView):
+    queryset = Material.objects.all()
+    serializer_class = MaterialSerializer
+
+class MaterialDetail(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Material.objects.all()
+    serializer_class = MaterialSerializer
