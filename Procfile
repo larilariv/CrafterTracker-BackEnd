@@ -1,0 +1,1 @@
+web: gunicorn crafter_tracker_django.wsgi
