@@ -19,19 +19,19 @@ class ProjectSerializer(serializers.HyperlinkedModelSerializer):
     )
     class Meta:
         model = Project
-        fields = ('id', 'name', 'category', 'complete', 'start_date', 'end_date', 'notes', 'images', 'resources', 'materials')
+        fields = ('user_string', 'name', 'category', 'complete', 'start_date', 'end_date', 'notes', 'images', 'resources', 'materials')
 
 class ImageSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Image
-        fields = ('id', 'name', 'images')
+        fields = ('name', 'image')
 
 class ResourceSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Resource
-        fields = ('id', 'name', 'link', 'media_type', 'notes')
+        fields = ('name', 'link', 'media_type', 'notes')
 
 class MaterialSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Material
-        fields = ('id', 'name', 'brand', 'category', 'material_purchase_link', 'notes')
+        fields = ('projects', 'user_string', 'name', 'brand', 'category', 'purchase_link', 'notes')
