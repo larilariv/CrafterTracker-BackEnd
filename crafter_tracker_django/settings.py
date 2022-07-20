@@ -11,7 +11,7 @@ https://docs.djangoproject.com/en/4.0/ref/settings/
 """
 
 import os
-import crafter_tracker_database_url
+import dj_database_url
 from datetime import timedelta
 from pathlib import Path
 
@@ -127,7 +127,7 @@ WSGI_APPLICATION = 'crafter_tracker_django.wsgi.application'
 CORS_ALLOW_ALL_ORIGINS = True
 
 DATABASES = {
-  'default': crafter_tracker_database_url.config(conn_max_age=600)
+  'default': dj_database_url.config(conn_max_age=600)
 }
 
 # Password validation
