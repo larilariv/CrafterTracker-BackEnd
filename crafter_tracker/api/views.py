@@ -58,6 +58,17 @@ def getProjectDetails(request, pk):
     serializer = ProjectSerializer(projects, many=False)
     return Response(serializer.data)
 
+@api_view(['POST'])
+@permission_classes([IsAuthenticated])
+def createProject(request):
+    data = request.data
+    project = Project.objects.create(
+        name=data['name'],
+        description=data['description'],
+    )
+    serializer = ProjectSerializer(project, many=False)
+    return Response(serializer.data)
+
 
 
 
