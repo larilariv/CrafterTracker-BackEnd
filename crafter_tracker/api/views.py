@@ -69,6 +69,14 @@ def createProject(request):
     serializer = ProjectSerializer(project, many=False)
     return Response(serializer.data)
 
+@api_view(['DELETE'])
+@permission_classes([IsAuthenticated])
+def deleteProject(request, pk):
+    user = request.user
+    project = user.project_set.get(pk=pk)
+    project.delete()
+    return Response('Project deleted!')
+
 
 
 
