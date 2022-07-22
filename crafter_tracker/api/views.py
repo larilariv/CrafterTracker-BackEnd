@@ -36,12 +36,36 @@ def getAllProjects(request):
     return Response(serializer.data)
 
 @api_view(['GET'])
+@permission_classes([AllowAny])
+def getAllProjectDetails(request, pk):
+    projects = Project.objects.get(pk=pk)
+    serializer = ProjectSerializer(projects, many=False)
+    return Response(serializer.data)
+
+@api_view(['GET'])
 @permission_classes([IsAuthenticated])
 def getProjects(request):
     user = request.user
     projects = user.project_set.all()
     serializer = ProjectSerializer(projects, many=True)
     return Response(serializer.data)
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def getProjectDetails(request, pk):
+    user = request.user
+    projects = user.project_set.get(pk=pk)
+    serializer = ProjectSerializer(projects, many=False)
+    return Response(serializer.data)
+
+
+
+
+
+
+
+
+
 
 # @api_view(['GET'])
 # @permission_classes([AllowAny])
