@@ -1,4 +1,3 @@
-import django
 from django.db import models
 import uuid
 from django.contrib.auth.models import User
@@ -17,10 +16,11 @@ class Project(models.Model):
     description = models.CharField(max_length=250)
     # category = ArrayField(models.CharField(max_length=250))
     notes = models.TextField(null=True, blank=True)
+    create_date = models.DateTimeField(auto_now_add=True)
+    start_date = models.DateTimeField(null=True, blank=True)
+    last_update = models.DateTimeField(auto_now=True)
+    complete_date = models.DateTimeField(null=True, blank=True)
     complete = models.BooleanField(default=False)
-    # create_date = models.DateField(auto_now_add=True)
-    # start_date = models.DateField(null=True, blank=True)
-    # end_date = models.DateField(null=True, blank=True)
 
     def __str__(self):
         return self.name
