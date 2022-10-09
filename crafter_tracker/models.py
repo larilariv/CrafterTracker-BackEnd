@@ -1,7 +1,9 @@
 import django
 from django.db import models
+import uuid
 from django.contrib.auth.models import User
 from django.contrib.postgres.fields import ArrayField
+from traitlets import default
 
 # Create your models here.
 class Project(models.Model):
@@ -10,13 +12,15 @@ class Project(models.Model):
         on_delete=models.CASCADE,
         null=True
         )
-    name = models.CharField(max_length=255)
-    description = models.CharField(max_length=255)
-    # category = ArrayField(models.CharField(max_length=255))
+    id = models.UUIDField(default=uuid.uuid4, unique=True, primary_key=True, editable=False)
+    name = models.CharField(max_length=100)
+    description = models.CharField(max_length=250)
+    # category = ArrayField(models.CharField(max_length=250))
     # complete = models.BooleanField()
-    # start_date = models.DateField()
-    # end_date = models.DateField()
-    # notes = models.TextField()
+    # create_date = models.DateField(auto_now_add=True)
+    # start_date = models.DateField(null=True, blank=True)
+    # end_date = models.DateField(null=True, blank=True)
+    # notes = models.TextField(null=True, blank=True)
 
     def __str__(self):
         return self.name
@@ -27,7 +31,7 @@ class Project(models.Model):
 #         on_delete=models.CASCADE,
 #         related_name='images',
 #     )
-#     name = models.CharField(max_length=255)
+#     name = models.CharField(max_length=100)
 #     image = models.ImageField(upload_to ='images/')
 
 #     def __str__(self):
@@ -39,7 +43,7 @@ class Project(models.Model):
 #         on_delete=models.CASCADE,
 #         related_name='resources',
 #     )
-#     name = models.CharField(max_length=255)
+#     name = models.CharField(max_length=100)
 #     link = models.URLField(max_length=400)
 #     media_type = models.CharField(max_length=255)
 #     notes = models.TextField()

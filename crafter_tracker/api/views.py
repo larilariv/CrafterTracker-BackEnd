@@ -70,14 +70,6 @@ def createProject(request):
     return Response(serializer.data)
 
 
-
-
-
-
-
-
-
-
 # @api_view(['GET'])
 # @permission_classes([AllowAny])
 # def getProjects(request):
