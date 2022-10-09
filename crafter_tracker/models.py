@@ -16,7 +16,7 @@ class Project(models.Model):
     name = models.CharField(max_length=100)
     description = models.CharField(max_length=250)
     # category = ArrayField(models.CharField(max_length=250))
-    # complete = models.BooleanField()
+    complete = models.BooleanField(default=False)
     # create_date = models.DateField(auto_now_add=True)
     # start_date = models.DateField(null=True, blank=True)
     # end_date = models.DateField(null=True, blank=True)
