@@ -14,7 +14,7 @@ class Project(models.Model):
     name = models.CharField(max_length=100)
     id = models.UUIDField(default=uuid.uuid4, unique=True, primary_key=True, editable=False)
     description = models.CharField(max_length=250)
-    # category = ArrayField(models.CharField(max_length=250))
+    categories = models.ManyToManyField('Category', blank=True)
     notes = models.TextField(null=True, blank=True)
     create_date = models.DateTimeField(auto_now_add=True)
     start_date = models.DateTimeField(null=True, blank=True)
