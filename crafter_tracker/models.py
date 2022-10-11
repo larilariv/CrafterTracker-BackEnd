@@ -11,8 +11,8 @@ class Project(models.Model):
         on_delete=models.CASCADE,
         null=True
         )
-    id = models.UUIDField(default=uuid.uuid4, unique=True, primary_key=True, editable=False)
     name = models.CharField(max_length=100)
+    id = models.UUIDField(default=uuid.uuid4, unique=True, primary_key=True, editable=False)
     description = models.CharField(max_length=250)
     # category = ArrayField(models.CharField(max_length=250))
     notes = models.TextField(null=True, blank=True)
@@ -21,6 +21,13 @@ class Project(models.Model):
     last_update = models.DateTimeField(auto_now=True)
     complete_date = models.DateTimeField(null=True, blank=True)
     complete = models.BooleanField(default=False)
+
+    def __str__(self):
+        return self.name
+
+class Category(models.Model):
+    name = models.CharField(max_length=100)
+    id = models.UUIDField(default=uuid.uuid4, unique=True, primary_key=True, editable=False)
 
     def __str__(self):
         return self.name
