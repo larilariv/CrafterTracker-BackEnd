@@ -29,13 +29,6 @@ def getRoutes(request):
     ]
     return Response(routes)
 
-# @api_view(['GET'])
-# @permission_classes([AllowAny])
-# def getAllProjects(request):
-#     projects = Project.objects.all()
-#     serializer = ProjectSerializer(projects, many=True)
-#     return Response(serializer.data)
-
 class ListPublicProjects(APIView):
     def get(self, request):
         projects = Project.objects.all()
