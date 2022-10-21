@@ -21,13 +21,13 @@ class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
 class MyTokenObtainPairView(TokenObtainPairView):
     serializer_class = MyTokenObtainPairSerializer
 
-@api_view(['GET'])
-def getRoutes(request):
-    routes = [
+class GetRoutes(APIView):
+    def get(self, request):
+        routes = [
         '/api/token',
         '/api/token/refresh'
     ]
-    return Response(routes)
+        return Response(routes)
 
 class ListPublicProjects(APIView):
     def get(self, request):

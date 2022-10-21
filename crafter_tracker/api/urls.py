@@ -7,9 +7,8 @@ from rest_framework_simplejwt.views import (
 )
 
 urlpatterns = [
-    path('', views.getRoutes),
-    # path('allprojects/', views.getAllProjects),
-    path('allprojects/', views.ListPublicProjects.as_view(), name="public projects"),
+    path('', views.GetRoutes.as_view(), name="get_routes" ),
+    path('allprojects/', views.ListPublicProjects.as_view(), name="list_public_projects"),
     path('allprojects/<int:pk>/', views.getAllProjectDetails),
     path('projects/', views.getProjects),
     path('projects/<int:pk>/', views.getProjectDetails),
