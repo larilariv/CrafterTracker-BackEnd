@@ -29,18 +29,17 @@ class GetRoutes(APIView):
     ]
         return Response(routes)
 
-class ListPublicProjects(APIView):
+class PublicProjectsList(APIView):
     def get(self, request):
         projects = Project.objects.all()
         serializer = ProjectSerializer(projects, many=True)
         return Response(serializer.data)
 
-@api_view(['GET'])
-@permission_classes([AllowAny])
-def getAllProjectDetails(request, pk):
-    projects = Project.objects.get(pk=pk)
-    serializer = ProjectSerializer(projects, many=False)
-    return Response(serializer.data)
+class PublicProjectDetails(APIView):
+    def get(self, request, pk):
+        projects = Project.objects.get(id=pk)
+        serializer = ProjectSerializer(projects, many=False)
+        return Response(serializer.data)
 
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
