@@ -42,13 +42,14 @@ class PublicProjectDetails(APIView):
         serializer = ProjectSerializer(projects, many=False)
         return Response(serializer.data)
 
-@api_view(['GET'])
-@permission_classes([IsAuthenticated])
-def getProjects(request):
-    user = request.user
-    projects = user.project_set.all()
-    serializer = ProjectSerializer(projects, many=True)
-    return Response(serializer.data)
+class ProjectsList(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request):
+        user = request.user
+        projects = user.project_set.all()
+        serializer = ProjectSerializer(projects, many=True)
+        return Response(serializer.data)
 
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
