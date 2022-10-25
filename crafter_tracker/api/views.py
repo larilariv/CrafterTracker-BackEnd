@@ -29,26 +29,27 @@ class GetRoutes(APIView):
     ]
         return Response(routes)
 
-class ListPublicProjects(APIView):
+class PublicProjectsList(APIView):
     def get(self, request):
         projects = Project.objects.all()
         serializer = ProjectSerializer(projects, many=True)
         return Response(serializer.data)
 
-@api_view(['GET'])
-@permission_classes([AllowAny])
-def getAllProjectDetails(request, pk):
-    projects = Project.objects.get(pk=pk)
-    serializer = ProjectSerializer(projects, many=False)
-    return Response(serializer.data)
+class PublicProjectDetails(APIView):
+    def get(self, request, pk, user):
+        projects = Project.objects.get(id=pk)
+        user = Project.objects.get_username(user)
+        serializer = ProjectSerializer(projects, many=False)
+        return Response(serializer.data)
 
-@api_view(['GET'])
-@permission_classes([IsAuthenticated])
-def getProjects(request):
-    user = request.user
-    projects = user.project_set.all()
-    serializer = ProjectSerializer(projects, many=True)
-    return Response(serializer.data)
+class ProjectsList(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request):
+        user = request.user
+        projects = user.project_set.all()
+        serializer = ProjectSerializer(projects, many=True)
+        return Response(serializer.data)
 
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])

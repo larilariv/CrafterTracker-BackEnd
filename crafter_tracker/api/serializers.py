@@ -1,12 +1,17 @@
 from rest_framework import serializers
 from rest_framework.serializers import ModelSerializer
-from crafter_tracker.models import Project
+from crafter_tracker.models import Project, Category
 
 class ProjectSerializer(ModelSerializer):
     user = serializers.ReadOnlyField(source='user.username')
 
     class Meta:
         model = Project
+        fields = '__all__'
+
+class CategorySerializer(ModelSerializer):
+    class Meta:
+        model = Category
         fields = '__all__'
 
 # from rest_framework import serializers
