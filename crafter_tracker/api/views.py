@@ -36,8 +36,9 @@ class PublicProjectsList(APIView):
         return Response(serializer.data)
 
 class PublicProjectDetails(APIView):
-    def get(self, request, pk):
+    def get(self, request, pk, user):
         projects = Project.objects.get(id=pk)
+        user = Project.objects.get_username(user)
         serializer = ProjectSerializer(projects, many=False)
         return Response(serializer.data)
 

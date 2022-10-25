@@ -2,6 +2,8 @@ from django.db import models
 import uuid
 from django.contrib.auth.models import User
 from django.contrib.postgres.fields import ArrayField
+# from django_extensions.db.fields import ShortUUIDField
+from shortuuid.django_fields import ShortUUIDField
 from traitlets import default
 
 # Create your models here.
@@ -12,7 +14,7 @@ class Project(models.Model):
         null=True
         )
     name = models.CharField(max_length=100)
-    id = models.UUIDField(default=uuid.uuid4, unique=True, primary_key=True, editable=False)
+    id = ShortUUIDField(primary_key=True, unique=True, editable=False, length=20, max_length=20, alphabet="abcdefghijklmnopqrstuvwxyz0123456789")
     description = models.CharField(max_length=250)
     categories = models.ManyToManyField('Category', blank=True)
     notes = models.TextField(null=True, blank=True)
