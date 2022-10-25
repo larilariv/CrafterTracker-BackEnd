@@ -18,6 +18,7 @@ class Project(models.Model):
     description = models.CharField(max_length=250)
     categories = models.ManyToManyField('Category', blank=True)
     notes = models.TextField(null=True, blank=True)
+    private = models.BooleanField(default=False)
     create_date = models.DateTimeField(auto_now_add=True)
     start_date = models.DateTimeField(null=True, blank=True)
     last_update = models.DateTimeField(auto_now=True)
