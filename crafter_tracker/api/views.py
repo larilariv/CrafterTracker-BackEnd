@@ -36,9 +36,9 @@ class PublicProjectsList(APIView):
         return Response(serializer.data)
 
 class PublicProjectDetails(APIView):
-    def get(self, request, pk, user):
+    def get(self, request, pk):
         projects = Project.objects.get(id=pk)
-        user = Project.objects.get_username(user)
+        # user = Project.objects.get_username(user)
         serializer = ProjectSerializer(projects, many=False)
         return Response(serializer.data)
 
@@ -51,13 +51,14 @@ class ProjectsList(APIView):
         serializer = ProjectSerializer(projects, many=True)
         return Response(serializer.data)
 
-@api_view(['GET'])
-@permission_classes([IsAuthenticated])
-def getProjectDetails(request, pk):
-    user = request.user
-    projects = user.project_set.get(pk=pk)
-    serializer = ProjectSerializer(projects, many=False)
-    return Response(serializer.data)
+class ProjectDetails(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request, pk):
+        user = request.user
+        projects = user.project_set.get(id=pk)
+        serializer = ProjectSerializer(projects, many=False)
+        return Response(serializer.data)
 
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])
