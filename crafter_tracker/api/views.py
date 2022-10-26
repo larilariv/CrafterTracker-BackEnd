@@ -51,6 +51,15 @@ class ProjectsList(APIView):
         serializer = ProjectSerializer(projects, many=True)
         return Response(serializer.data)
 
+    def post(self, request):
+        data = request.data
+        project = Project.objects.create(
+            name=data['name'],
+            description=data['description'],
+        )
+        serializer = ProjectSerializer(project, many=False)
+        return Response(serializer.data)
+
 class ProjectDetails(APIView):
     permission_classes = [IsAuthenticated]
 
@@ -59,17 +68,6 @@ class ProjectDetails(APIView):
         projects = user.project_set.get(id=pk)
         serializer = ProjectSerializer(projects, many=False)
         return Response(serializer.data)
-
-@api_view(['POST'])
-@permission_classes([IsAuthenticated])
-def createProject(request):
-    data = request.data
-    project = Project.objects.create(
-        name=data['name'],
-        description=data['description'],
-    )
-    serializer = ProjectSerializer(project, many=False)
-    return Response(serializer.data)
 
 @api_view(['DELETE'])
 @permission_classes([IsAuthenticated])
