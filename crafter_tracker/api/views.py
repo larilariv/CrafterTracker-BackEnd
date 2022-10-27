@@ -69,13 +69,19 @@ class ProjectDetails(APIView):
         serializer = ProjectSerializer(projects, many=False)
         return Response(serializer.data)
 
-@api_view(['DELETE'])
-@permission_classes([IsAuthenticated])
-def deleteProject(request, pk):
-    user = request.user
-    project = user.project_set.get(pk=pk)
-    project.delete()
-    return Response('Project deleted!')
+    def delete(self, request, pk):
+        user = request.user
+        project = user.project_set.get(pk=pk)
+        project.delete()
+        return Response('Project deleted!')
+
+# @api_view(['DELETE'])
+# @permission_classes([IsAuthenticated])
+# def deleteProject(request, pk):
+#     user = request.user
+#     project = user.project_set.get(pk=pk)
+#     project.delete()
+#     return Response('Project deleted!')
 
 
 
