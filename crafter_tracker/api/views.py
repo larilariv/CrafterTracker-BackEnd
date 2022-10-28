@@ -56,6 +56,7 @@ class ProjectsList(APIView):
         project = Project.objects.create(
             name=data['name'],
             description=data['description'],
+            user = request.user
         )
         serializer = ProjectSerializer(project, many=False)
         return Response(serializer.data)
@@ -65,13 +66,13 @@ class ProjectDetails(APIView):
 
     def get(self, request, pk):
         user = request.user
-        projects = user.project_set.get(id=pk)
-        serializer = ProjectSerializer(projects, many=False)
+        project = user.project_set.get(id=pk)
+        serializer = ProjectSerializer(project, many=False)
         return Response(serializer.data)
 
     def delete(self, request, pk):
         user = request.user
-        project = user.project_set.get(pk=pk)
+        project = user.project_set.get(id=pk)
         project.delete()
         return Response('Project deleted!')
 
