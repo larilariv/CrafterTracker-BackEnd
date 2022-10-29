@@ -1,6 +1,6 @@
 from django.http import JsonResponse
 
-from rest_framework import permissions
+from rest_framework import permissions, status
 from rest_framework.response import Response
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import IsAuthenticated, AllowAny
@@ -38,7 +38,6 @@ class PublicProjectsList(APIView):
 class PublicProjectDetails(APIView):
     def get(self, request, pk):
         projects = Project.objects.get(id=pk)
-        # user = Project.objects.get_username(user)
         serializer = ProjectSerializer(projects, many=False)
         return Response(serializer.data)
 
@@ -69,6 +68,16 @@ class ProjectDetails(APIView):
         project = user.project_set.get(id=pk)
         serializer = ProjectSerializer(project, many=False)
         return Response(serializer.data)
+
+    def put(self, request, pk, format=None):
+        user = request.user
+        project = user.project_set.get(id=pk)
+        serializer = ProjectSerializer(project, data=request.data)
+
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     def delete(self, request, pk):
         user = request.user
