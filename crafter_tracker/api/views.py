@@ -1,4 +1,4 @@
-from django.http import JsonResponse
+from django.http import Http404, JsonResponse
 
 from rest_framework import permissions, status
 from rest_framework.response import Response
@@ -30,15 +30,21 @@ class GetRoutes(APIView):
         return Response(routes)
 
 class PublicProjectsList(APIView):
-    def get(self, request):
+    def get(self, request, format=None):
         projects = Project.objects.all()
         serializer = ProjectSerializer(projects, many=True)
         return Response(serializer.data)
 
 class PublicProjectDetails(APIView):
-    def get(self, request, pk):
-        projects = Project.objects.get(id=pk)
-        serializer = ProjectSerializer(projects, many=False)
+    def get_object(self, pk):
+        try:
+            return Project.objects.get(id=pk)
+        except Project.DoesNotExist:
+            raise Http404
+
+    def get(self, request, pk, format=None):
+        project = self.get_object(pk)
+        serializer = ProjectSerializer(project)
         return Response(serializer.data)
 
 class ProjectsList(APIView):
