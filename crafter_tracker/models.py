@@ -10,8 +10,8 @@ class Project(models.Model):
         on_delete=models.CASCADE,
         null=True
         )
+    id = ShortUUIDField(primary_key=True, unique=True, editable=False, length=10, max_length=10, alphabet="abcdefghijklmnopqrstuvwxyz0123456789")
     name = models.CharField(max_length=100)
-    id = ShortUUIDField(primary_key=True, unique=True, editable=False, length=20, max_length=20, alphabet="abcdefghijklmnopqrstuvwxyz0123456789")
     description = models.CharField(max_length=250)
     categories = models.ManyToManyField('Category', blank=True)
     notes = models.TextField(null=True, blank=True)

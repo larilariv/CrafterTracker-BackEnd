@@ -1,6 +1,6 @@
-from django.http import JsonResponse
+from django.http import Http404, JsonResponse
 
-from rest_framework import permissions
+from rest_framework import permissions, status
 from rest_framework.response import Response
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import IsAuthenticated, AllowAny
@@ -30,16 +30,21 @@ class GetRoutes(APIView):
         return Response(routes)
 
 class PublicProjectsList(APIView):
-    def get(self, request):
+    def get(self, request, format=None):
         projects = Project.objects.all()
         serializer = ProjectSerializer(projects, many=True)
         return Response(serializer.data)
 
 class PublicProjectDetails(APIView):
-    def get(self, request, pk):
-        projects = Project.objects.get(id=pk)
-        # user = Project.objects.get_username(user)
-        serializer = ProjectSerializer(projects, many=False)
+    def get_object(self, pk):
+        try:
+            return Project.objects.get(id=pk)
+        except Project.DoesNotExist:
+            raise Http404
+
+    def get(self, request, pk, format=None):
+        project = self.get_object(pk)
+        serializer = ProjectSerializer(project)
         return Response(serializer.data)
 
 class ProjectsList(APIView):
@@ -56,6 +61,7 @@ class ProjectsList(APIView):
         project = Project.objects.create(
             name=data['name'],
             description=data['description'],
+            user = request.user
         )
         serializer = ProjectSerializer(project, many=False)
         return Response(serializer.data)
@@ -65,13 +71,23 @@ class ProjectDetails(APIView):
 
     def get(self, request, pk):
         user = request.user
-        projects = user.project_set.get(id=pk)
-        serializer = ProjectSerializer(projects, many=False)
+        project = user.project_set.get(id=pk)
+        serializer = ProjectSerializer(project, many=False)
         return Response(serializer.data)
+
+    def put(self, request, pk, format=None):
+        user = request.user
+        project = user.project_set.get(id=pk)
+        serializer = ProjectSerializer(project, data=request.data)
+
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     def delete(self, request, pk):
         user = request.user
-        project = user.project_set.get(pk=pk)
+        project = user.project_set.get(id=pk)
         project.delete()
         return Response('Project deleted!')
 
